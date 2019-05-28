@@ -33,3 +33,11 @@
 docker-compose up
 ```
 - App and database will running
+
+## Big Thanks
+- Hackathon Starter from Sahat https://github.com/sahat/hackathon-starter
+- Dropzone.js from https://www.dropzonejs.com/
+- SweetAllert2 from https://sweetalert2.github.io/
+- Tabler from https://tabler.io/
+- Bootstrap 4 and JQuery
+- Picture from https://www.freepik.com/
