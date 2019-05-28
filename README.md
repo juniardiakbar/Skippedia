@@ -1,4 +1,4 @@
-# Skipedia
+# Skipedia Web Application
 
 ## Features
 - Authentication with Google
