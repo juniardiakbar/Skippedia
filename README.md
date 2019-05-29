@@ -32,7 +32,7 @@
 ```
 docker-compose up
 ```
-- App and database will running```
+- App and database will running
 
 
 ## Big Thanks
