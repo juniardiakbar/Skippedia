@@ -31,8 +31,9 @@
 - Run Skipedia with these command
 ```
 docker-compose up
-- App and database will running```
 ```
+- App and database will running```
+
 
 ## Big Thanks
 - Hackathon Starter from Sahat https://github.com/sahat/hackathon-starter
