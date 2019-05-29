@@ -31,8 +31,20 @@
 - Run Skipedia with these command
 ```
 docker-compose up
+- App and database will running```
 ```
-- App and database will running
+
+## Project Structure
+| Name          | Description           |
+| ------------- |:---------------------:|
+| config/passport.js| Passport Local and OAuth strategies, plus login middleware.|
+| config/index.js| Configuration for upload file directory.|
+| controllers/apiFile.js| Controller for /api route (uploadFile).|
+| controllers/dashboard.js| Controller for administrator page.|
+| controllers/home.js| Controller for home page.|
+| controllers/mahasiswa.js| Controller for /mahasiswa route.|
+| controllers/rating.js| Controller for rating page.|
+| controllers/user.js| Controller for user page.|
 
 ## Big Thanks
 - Hackathon Starter from Sahat https://github.com/sahat/hackathon-starter
