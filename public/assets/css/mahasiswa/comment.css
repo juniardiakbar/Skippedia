@@ -1,0 +1,19 @@
+.rating {
+  margin-top: 10px;
+}
+
+.star {
+  font-size: 30px;
+}
+
+.checked {
+  color: orange;
+}
+
+.hover {
+  color: #ffdb7a;
+}
+
+.star:hover {
+  cursor: pointer;
+}

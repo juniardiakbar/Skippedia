@@ -1,0 +1,27 @@
+extends ../layout
+
+block head
+  link(href="/css/sweetalert2.min.css")
+
+block script
+  script(src="/js/sweetalert2.all.min.js")
+  script(src="/assets/js/dashboard/file.js")
+
+block content
+  .card
+    table.table.card-table.table-vcenter
+      input#csrf(type='hidden' name='_csrf' value=_csrf)
+      tbody
+        tr
+          th Original Name
+          th Filename
+          th URL
+          th
+        for data in file
+          tr
+            td= data.originalname
+            td= data.filename
+            td= data.url
+            td
+              a.deleteButton.btn(role='button' data-deletedobject=data.id)
+                i.fas.fa-trash

@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  .row
+    .col.col-login.mx-auto
+      form.card(action='', method='post')
+        .text-center
+          i.fas.fa-cube(style='font-size: 20px;').py-3   Skipedia
+        input(type='hidden', name='_csrf', value=_csrf)
+        .card-body
+          .card-title Login to your account
+          .form-group
+            label.form-label Email address
+            input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, autocomplete='email', required)
+          .form-group
+            label.form-label
+              | Password
+            input.form-control(type='password', name='password', id='password', placeholder='Password', autocomplete='current-password', required)
+          .form-footer
+            button.btn.btn-primary.btn-block(type='submit') Sign in
+          .form-footer
+            a.btn.btn-block.btn-google.btn-social(href='/auth/google')
+              | Sign in with Google

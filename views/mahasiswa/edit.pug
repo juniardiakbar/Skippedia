@@ -1,0 +1,42 @@
+extends ../layout
+
+block script
+  script(src="/js/dropzone.min.js")
+  script(src="/assets/js/mahasiswa/edit.js")
+  script(src="/js/sweetalert2.all.min.js")
+
+block head
+  link(rel='stylesheet', href="/css/sweetalert2.min.css")
+  link(rel='stylesheet', href='/css/dropzone.min.css')
+
+block content
+  .container
+    .row
+      .col-lg-3
+      .col-lg-6
+        - href = '/mahasiswa/edit/nim/' + mahasiswa.nim
+        form.card(action='', method='post')
+          input#csrf(type='hidden' name='_csrf' value=_csrf)
+          .card-header
+            h3.card-title Edit Profile
+          .card-body
+            .form-group
+              label.form-label Nama dan NIM
+              .row
+                .col-6
+                  input.form-control(type='text', name='nama', value=`${mahasiswa.nama}`, disabled='')
+                .col-6 
+                  input.form-control(type='text', name='nim', value=`${mahasiswa.nim}`, disabled='')
+            .form-group
+              label.form-label Email
+              .row
+                .col
+                  input.form-control(type='text', name='email', value=`${user.email}`, disabled='')
+            .form-group.select-image
+              label.form-label New Image
+              input#myImagePicker(type='hidden', name='_image')
+              .row.d-flex.justify-content-center
+                .col-lg-12
+                  #dropzoneDiv.dropzone
+            .form-footer
+              button.btn.btn-primary.btn-block(type='submit') Edit

@@ -1,0 +1,113 @@
+extends ../layout
+
+block content
+  .card
+    .card-header
+      .form-group(style="margin-right: 10px; margin-top: 8px; font-size: 15px;")
+        | Limit :
+      form.mr-2(action="#" method="GET")
+        input(type="hidden" name="sort" value=sortQuery)
+        input(type="hidden" name="method" value=methodQuery)
+        input(type="hidden" name="page" value=1)
+        input(type="hidden" name="search" value=searchQuery)
+        select.form-control(name="limit" onchange="this.form.submit()")
+          option(value="1" selected=(limit==10)) 10
+          option(value="2" selected=(limit==20)) 20
+          option(value="3" selected=(limit==25)) 25
+          option(value="4" selected=(limit==50)) 50
+      form.mr-2(action="#" method="GET")
+        input(type="hidden" name="sort" value=sortQuery)
+        input(type="hidden" name="method" value=methodQuery)
+        input(type="hidden" name="page" value=1)
+        input(type="hidden" name="limit" value=limitQuery)
+        .input-group
+          input.form-control.form-control-md(type="text" placeholder="Search..." name="search" value=searchQuery)
+          button.btn.btn-md.btn-outline-info(type="submit")
+            i.fa.fa-search
+
+    .table-responsive
+      table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table
+        input#csrf(type='hidden' name='_csrf' value=_csrf)
+        thead
+          tr
+            th.w-1
+            th
+              if sort=='nama'
+                if method=='ASC'
+                  a(href=`?sort=nama&method=DESC&page=${pageQuery}&limit=${limitQuery}&search=${searchQuery}`) Nama 
+                    i.fa.fa-arrow-up
+                else 
+                  a(href=`?sort=nama&method=ASC&page=${pageQuery}&limit=${limitQuery}&search=${searchQuery}`) Nama 
+                    i.fa.fa-arrow-down
+              else
+                a(href=`?sort=nama&method=ASC&page=${pageQuery}&limit=${limitQuery}&search=${searchQuery}`) Nama 
+            th
+              if sort=='nim'
+                if method=='ASC'
+                  a(href=`?sort=nim&method=DESC&page=${pageQuery}&limit=${limitQuery}&search=${searchQuery}`) NIM 
+                    i.fa.fa-arrow-up
+                else 
+                  a(href=`?sort=nim&method=ASC&page=${pageQuery}&limit=${limitQuery}&search=${searchQuery}`) NIM 
+                    i.fa.fa-arrow-down
+              else
+                a(href=`?sort=nim&method=ASC&page=${pageQuery}&limit=${limitQuery}&search=${searchQuery}`) NIM 
+            th
+              if sort=='rating'
+                if method=='ASC'
+                  a(href=`?sort=rating&method=DESC&page=${pageQuery}&limit=${limitQuery}&search=${searchQuery}`) Rating 
+                    i.fa.fa-arrow-up
+                else 
+                  a(href=`?sort=rating&method=ASC&page=${pageQuery}&limit=${limitQuery}&search=${searchQuery}`) Rating 
+                    i.fa.fa-arrow-down
+              else
+                a(href=`?sort=rating&method=ASC&page=${pageQuery}&limit=${limitQuery}&search=${searchQuery}`) Rating 
+            th
+        tbody
+          - var link = '/mahasiswa/info/nim/'
+          for data in mahasiswa
+            - var href = link+data.nim
+            tr
+              td
+                if (!data.image) 
+                  span.avatar.d-block.rounded(style='background-image: url(/img/ava-default.jpg)')
+                else
+                  - var href = 'background-image: url('+data.image.url+')'
+                  span.avatar.d-block.rounded(style=`${href}`)
+              td= data.nama
+              td= data.nim
+              td= data.rating
+              td
+                a.icon(href=`${href}`)
+                  i.fas.fa-search
+
+      nav.mt-3
+        ul.pagination.justify-content-center
+          if page == 1
+            li.page-item.disabled
+              a.page-link(href='#', aria-label='Previous')
+                span(aria-hidden='true') «
+                span.sr-only Previous
+          else
+            li.page-item
+              a.page-link(href=`?page=${parseInt(page) - 1}&sort=${sortQuery}&method=${methodQuery}&limit=${limitQuery}&search=${searchQuery}`, aria-label='Previous')
+                span(aria-hidden='true') «
+                span.sr-only Previous
+          - var pagination = 1
+          while pagination <= pages
+            if pagination < 4 || pages - pagination < 3 || Math.abs(pagination - page) < 4
+              li.page-item(class= pagination == page ? "active" : "")
+                a.page-link(href=`?page=${pagination}&sort=${sortQuery}&method=${methodQuery}&limit=${limitQuery}&search=${searchQuery}`) #{pagination}
+            else if (page > 9 || page < pages - 8) && (pagination === 4 || pagination === pages - 3)
+              li.page-item
+                .page-link ...
+            - pagination++
+          if page == pages || pages == 1
+            li.page-item.disabled
+              a.page-link(href='#', aria-label='Next')
+                span(aria-hidden='true') »
+                span.sr-only Next
+          else
+            li.page-item
+              a.page-link(href=`?page=${parseInt(page) + 1}&sort=${sortQuery}&method=${methodQuery}&limit=${limitQuery}&search=${searchQuery}`, aria-label='Next')
+                span(aria-hidden='true') »
+                span.sr-only Next

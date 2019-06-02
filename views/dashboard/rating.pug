@@ -1,0 +1,31 @@
+extends ../layout
+
+block head
+  link(href="/css/sweetalert2.min.css")
+
+block script
+  script(src="/js/sweetalert2.all.min.js")
+  script(src="/assets/js/dashboard/rating.js")
+
+block content
+  .card
+    table.table.card-table.table-vcenter
+      input#csrf(type='hidden' name='_csrf' value=_csrf)
+      tbody
+        tr
+          th Nilai
+          th Konten
+          th Untuk
+          th Dari
+          th Created At
+          th
+        for data in rating
+          tr
+            td= data.nilai
+            td= data.content
+            td= data.untuk
+            td= data.dari
+            th= data.createdAt
+            td
+              a.deleteButton.btn(role='button' data-deletedobject=data.id)
+                i.fas.fa-trash

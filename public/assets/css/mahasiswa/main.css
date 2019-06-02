@@ -1,0 +1,39 @@
+#namaASC {
+	cursor: pointer;
+}
+
+#namaDESC {
+	cursor: pointer;
+}
+
+#nama {
+	cursor: pointer;
+}
+
+#nimASC {
+	cursor: pointer;
+}
+
+#nimDESC {
+	cursor: pointer;
+}
+
+#nim {
+	cursor: pointer;
+}
+
+#ratingASC {
+	cursor: pointer;
+}
+
+#ratingDESC {
+	cursor: pointer;
+}
+
+#rating {
+	cursor: pointer;
+}
+
+.disabled {
+	cursor: not-allowed;
+}

@@ -1,0 +1,62 @@
+extends layout
+
+block script
+  script(src='/assets/js/mahasiswa/home.js')
+
+block content
+  .row
+    .col-lg-6
+      .card
+        .card-header
+          h3.card-title Mahasiswa Tercarry HMIF
+          .card-options
+            a.btn.btn-outline-secondary.btn-sm#allCarry All
+            a.btn.btn-outline-secondary.btn-sm.ml-2#ifCarry IF
+            a.btn.btn-outline-secondary.btn-sm.ml-2#stiCarry STI
+        table.table.card-table.table-vcenter
+          thead
+            tr
+              th.w-1
+              th Nama
+              th.d-none.d-sm-table-cell NIM
+              th.d-none.d-md-table-cell Rating
+          tbody#tabelCarry
+            for data in bestMahasiswa
+              tr
+                td
+                  if (!data.image) 
+                    span.avatar.d-block.rounded(style='background-image: url(/img/ava-default.jpg)')
+                  else
+                    - var href = 'background-image: url('+data.image.url+')'
+                    span.avatar.d-block.rounded(style=`${href}`)
+                td= data.nama
+                td= data.nim
+                td= data.rating
+
+    .col-lg-6
+      .card
+        .card-header
+          h3.card-title Mahasiswa Terskip HMIF
+          .card-options
+            a.btn.btn-outline-secondary.btn-sm#allSkip All
+            a.btn.btn-outline-secondary.btn-sm.ml-2#ifSkip IF
+            a.btn.btn-outline-secondary.btn-sm.ml-2#stiSkip STI
+        table.table.card-table.table-vcenter
+          thead
+            tr
+              th.w-1
+              th Nama
+              th.d-none.d-sm-table-cell NIM
+              th.d-none.d-md-table-cell Rating
+          tbody#tabelSkip
+            for data in worstMahasiswa
+              tr
+                td
+                  if (!data.image) 
+                    span.avatar.d-block.rounded(style='background-image: url(./img/ava-default.jpg)')
+                  else
+                    - var href = 'background-image: url('+data.image.url+')'
+                    span.avatar.d-block.rounded(style=`${href}`)
+                td= data.nama
+                td= data.nim
+                td= data.rating

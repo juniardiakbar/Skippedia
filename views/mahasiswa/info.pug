@@ -1,0 +1,96 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/assets/css/mahasiswa/info.css")
+
+block script
+  script(src="/assets/js/mahasiswa/info.js")
+
+block content
+  .row
+    .col-md-4
+      .card.card-profile
+        .card-header(style='background-image: url(/img/header.jpg);')
+        .card-body.text-center
+          if (!mahasiswa.image)
+            img.card-profile-img#image(src='/img/ava-default.jpg')          
+          else
+            img.card-profile-img#image(src=`${mahasiswa.image.url}`)
+          h3.mb-3= mahasiswa.nama
+          h4.mb-4= mahasiswa.nim
+          if (mahasiswa.rating == '0')
+            h5.mb-4 Belum ada yang memberi rating
+          else
+            input#input-rating(type="hidden" name="rating" value=mahasiswa.rating)
+            #rating
+
+          if (!acc)
+            if (banyak == 0)
+              - var href = '/mahasiswa/comment/nim/' + mahasiswa.nim
+              a.btn.btn-blue.btn-block(href=`${href}`) Tambah Komentar
+          else
+            - var href = '/mahasiswa/edit/nim/' + mahasiswa.nim
+            a.btn.btn-blue.btn-block(href=`${href}`) Edit Profile
+    .col-lg-8
+      if count > 0
+        .card
+          ul.list-group.card-list-group
+          -var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+          for data in rating
+            li.list-group-item.py-5
+              .media
+                .media-body
+                  .media-heading
+                    h5 Seseorang memberikan komentar pada #{data.createdAt.getDate()} #{monthNames[data.createdAt.getMonth()]} #{data.createdAt.getFullYear()} #{data.createdAt.getHours()}:#{data.createdAt.getMinutes()}:#{data.createdAt.getSeconds()}
+                    if (data.nilai == 5)
+                      span#badge.badge.badge-success Excelent
+                    else if (data.nilai == 4)
+                      span#badge.badge.badge-primary Very Good
+                    else if (data.nilai == 3)
+                      span#badge.badge.badge-info Good
+                    else if (data.nilai == 2)
+                      span#badge.badge.badge-waring Fair
+                    else if (data.nilai == 1)
+                      span#badge.badge.badge-danger Poor
+
+                  div
+                    = data.content
+
+          nav.mt-3
+            ul.pagination.justify-content-center
+              if page == 1
+                li.page-item.disabled
+                  a.page-link(href='#', aria-label='Previous')
+                    span(aria-hidden='true') «
+                    span.sr-only Previous
+              else
+                li.page-item
+                  a.page-link(href=`?page=${parseInt(page) - 1}`, aria-label='Previous')
+                    span(aria-hidden='true') «
+                    span.sr-only Previous
+              - var pagination = 1
+              while pagination <= pages
+                if pagination < 4 || pages - pagination < 3 || Math.abs(pagination - page) < 4
+                  li.page-item(class= pagination == page ? "active" : "")
+                    a.page-link(href=`?page=${pagination}`) #{pagination}
+                else if (page > 9 || page < pages - 8) && (pagination === 4 || pagination === pages - 3)
+                  li.page-item
+                    .page-link ...
+                - pagination++
+              if page == pages || pages == 1
+                li.page-item.disabled
+                  a.page-link(href='#', aria-label='Next')
+                    span(aria-hidden='true') »
+                    span.sr-only Next
+              else
+                li.page-item
+                  a.page-link(href=`?page=${parseInt(page) + 1}`, aria-label='Next')
+                    span(aria-hidden='true') »
+                    span.sr-only Next
+
+      else
+        .card.py-5.px-5.text-center
+          h2 Komentar Untuk #{mahasiswa.nama} Belum Tersedia!
+          img(src='/img/404.png')          
+          if (!acc)
+            h4 Jadilah orang pertama yang memberi rating untuk #{mahasiswa.nama}
