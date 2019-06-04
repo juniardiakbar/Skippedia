@@ -16,24 +16,157 @@ exports.getDashboardHome = (req, res) => {
 };
 
 /**
+ * GET /dashboard/all
+ * GET dashboard
+ */
+exports.getDashboardAll = (req, res) => {
+  let {
+    page, // page number
+    limit, // limit per page
+    sort, // sortedBy
+    method, // sortMethod
+    search,
+    angkatan,
+    jurusan,
+  } = req.query;
+
+  limit = parseInt(limit, 10) || 10;
+  page = parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
+  sort = sort || "nim";
+  method = method || "ASC";
+  search = search || "";
+  const sortObject = {};
+  sortObject[sort] = method;
+  const _angkatan = angkatan;
+  const _jurusan = jurusan;
+
+  var options;
+  if (_angkatan != 'all'){
+    if (_jurusan != 'all'){
+      options = {
+        $and: [
+          {
+            angkatan: _angkatan,
+            jurusan: _jurusan
+          },
+          {
+            $or: [
+              {
+                nama: new RegExp(search, "i")
+              },
+              {
+                nim: new RegExp(search, "i")
+              }
+            ]
+          }
+        ]
+      };
+    } else {
+      options = {
+        $and: [
+          {
+            angkatan: _angkatan
+          },
+          {
+            $or: [
+              {
+                nama: new RegExp(search, "i")
+              },
+              {
+                nim: new RegExp(search, "i")
+              }
+            ]
+          }
+        ]
+      };
+    }
+  } else {
+    if (_jurusan != 'all'){
+      options = {
+        $and: [
+          {
+            jurusan: _jurusan
+          },
+          {
+            $or: [
+              {
+                nama: new RegExp(search, "i")
+              },
+              {
+                nim: new RegExp(search, "i")
+              }
+            ]
+          }
+        ]
+      };
+    } else {
+      options = {
+        $or: [
+          {
+            nama: new RegExp(search, "i")
+          },
+          {
+            nim: new RegExp(search, "i")
+          }
+        ]
+      };
+    }
+  }
+
+  const unknownUser = !(req.user);
+  const countMahasiswa = Mahasiswa.countDocuments(options);
+  const totalMahasiswa = Mahasiswa.countDocuments(options);
+  var findMahasiswa = Mahasiswa.find(options)
+    .populate('image')
+    .limit(limit)
+    .skip((page - 1) * limit)
+    .sort(sortObject);
+
+  Promise.all([findMahasiswa, countMahasiswa, totalMahasiswa])
+  .then(([mahasiswa, count, total]) => {
+    res.render('mahasiswa/all', {
+      title: 'Cari Mahasiswa Enigma 2015',
+      unknownUser,
+      page,
+      limit,
+      sort,
+      count,
+      method,
+      pages: Math.ceil(total / limit),
+      mahasiswa,
+
+      pageQuery: req.pageQuery || page,
+      limitQuery: req.limitQuery || limit,
+      methodQuery: req.methodQuery || method,
+      sortQuery: req.sortQuery || sort,
+      searchQuery: req.searchQuery || search
+    });
+  })
+  .catch(() => {
+    throw new Error("Error");
+  });
+};
+
+
+/**
  * GET /dashboad/user
  * Show dashboard user.
  */
 exports.getDashboardUser = (req, res) => {
-   const unknownUser = !(req.user);
-   const findUser = User.find()
-   
-   Promise.all([findUser])
-   .then(([user]) => {
-     res.render('dashboard/user', {
-       title: 'Dashboard User',
-       unknownUser,
-       user
-     });
-   })
-   .catch(() => {
-     throw new Error("Error");
+  const unknownUser = !(req.user);
+  const findUser = User.find()
+
+  Promise.all([findUser])
+  .then(([user]) => {
+   res.render('dashboard/user', {
+     title: 'Dashboard User',
+     unknownUser,
+     user
    });
+  })
+  .catch(() => {
+   throw new Error("Error");
+  });
 };
 
 /**
@@ -41,15 +174,60 @@ exports.getDashboardUser = (req, res) => {
  * Show dashboard mahasiswa.
  */
 exports.getDashboardMahasiswa = (req, res) => {
+  let {
+    page, // page number
+    limit, // limit per page
+    sort, // sortedBy
+    method, // sortMethod
+    search
+  } = req.query;
+
+  limit = parseInt(limit, 10) || 10;
+  page = parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
+  sort = sort || "nim";
+  method = method || "ASC";
+  search = search || "";
+  const sortObject = {};
+  sortObject[sort] = method;
+
+  const options = {
+    $or: [
+      {
+        nama: new RegExp(search, "i")
+      },
+      {
+        nim: new RegExp(search, "i")
+      },
+    ]
+  };
+
   const unknownUser = !(req.user);
-  const findMahasiswa = Mahasiswa.find()
-  
-  Promise.all([findMahasiswa])
-  .then(([mahasiswa]) => {
+  const countMahasiswa = Mahasiswa.countDocuments(options);
+  const totalMahasiswa = Mahasiswa.countDocuments(options);
+  var findMahasiswa = Mahasiswa.find(options)
+    .populate('image')
+    .limit(limit)
+    .skip((page - 1) * limit)
+    .sort(sortObject);
+
+  Promise.all([findMahasiswa, countMahasiswa, totalMahasiswa])
+  .then(([mahasiswa, count, total]) => {
     res.render('dashboard/mahasiswa', {
       title: 'Dashboard Mahasiswa',
       unknownUser,
-      mahasiswa
+      page,
+      limit,
+      sort,
+      count,
+      method,
+      pages: Math.ceil(total / limit),
+      mahasiswa,
+
+      pageQuery: req.pageQuery || page,
+      limitQuery: req.limitQuery || limit,
+      methodQuery: req.methodQuery || method,
+      sortQuery: req.sortQuery || sort,
+      searchQuery: req.searchQuery || search
     });
   })
   .catch(() => {

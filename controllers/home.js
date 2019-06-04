@@ -17,7 +17,7 @@ exports.index = (req, res) => {
   const sortObject = {};
   sortObject[sort] = method;
 
-  var findBestMahasiswa = Mahasiswa.find()
+  var findBestMahasiswa = Mahasiswa.find({'rating':{$gt:0}})
     .populate('image')
     .limit(limit)
     .sort(sortObject);
@@ -26,7 +26,7 @@ exports.index = (req, res) => {
   const sortObject2 = {};
   sortObject2[sort] = method;
 
-  var findWorstMahasiswa = Mahasiswa.find()
+  var findWorstMahasiswa = Mahasiswa.find({'rating':{$gt:0}})
     .populate('image')
     .limit(limit)
     .sort(sortObject2);

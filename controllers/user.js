@@ -97,7 +97,7 @@ exports.deleteUser = (req, res) => {
 exports.getAccount = (req, res) => {
   if (req.user.email != 'admin@skipedia.id'){
     var nim = req.user.email.split('@')
-    return res.redirect('/mahasiswa/info/nim/'+nim[0]);
+    return res.redirect('/mahasiswa/info/'+nim[0]);
   } else {
     req.flash('errors', { msg: 'You are an admin!' });
     res.redirect('/');

@@ -1,34 +1,65 @@
 extends ../layout
 
-block head
-  link(href="/css/sweetalert2.min.css")
-
 block script
-  script(src="/js/sweetalert2.all.min.js")
-  script(src="/assets/js/dashboard/mahasiswa.js")
+  script(src='/assets/js/dashboard/mahasiswa.js')
+
+block head
+  link(rel='stylesheet', href='/assets/css/mahasiswa/main.css')
 
 block content
   .card
-    table.table.card-table.table-vcenter
-      input#csrf(type='hidden' name='_csrf' value=_csrf)
-      tbody
-        tr
-          th Nama
-          th NIM
-          th Angkatan
-          th Rating
-          th Image
-          th
-        for data in mahasiswa
+    .card-header
+      .form-group(style="margin-right: 10px; margin-top: 8px; font-size: 15px;")
+      form.mr-2(action="#" method="GET")
+        input#sort(type="hidden" name="sort" value=sortQuery)
+        input#method(type="hidden" name="method" value=methodQuery)
+        input#page(type="hidden" name="page" value=pageQuery)
+        input#pages(type="hidden" name="pages" value=pages)
+        input#limit(type="hidden" name="limit" value=limitQuery)
+        .input-group
+          input.form-control.form-control-md#search(type="text" placeholder="Search..." name="search" autocomplete="off" value=searchQuery)
+          //- button.btn.btn-md.btn-outline-info(type="submit")
+          //-   i.fa.fa-search
+
+    .table-responsive#table
+      table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table
+        input#csrf(type='hidden' name='_csrf' value=_csrf)
+        thead
           tr
-            td= data.nama
-            td= data.nim
-            td= data.angkatan
-            td= data.rating
-            if (data.image != null)
-              td= data.image
-            else
-              td= null
-            td
-              a.deleteButton.btn(role='button' data-deletedobject=data.id)
-                i.fas.fa-trash
+            th.w-1
+            th
+              a#nama NAMA 
+            th
+              a#nimASC NIM 
+              i.fa.fa-arrow-up#icon-sort
+            th
+              a#rating RATING
+            th
+        tbody#tbody
+          - var link = '/mahasiswa/info/nim/'
+          for data in mahasiswa
+            - var href = link+data.nim
+            tr
+              td
+                if (!data.image) 
+                  span.avatar.d-block.rounded(style='background-image: url(/img/ava-default.jpg)')
+                else
+                  - var href = 'background-image: url('+data.image.url+')'
+                  span.avatar.d-block.rounded(style=`${href}`)
+              td= data.nama
+              td= data.nim
+              td= data.rating
+              td
+                a.deleteButton.btn(role='button' data-deletedobject=data.id)
+                  i.fas.fa-trash
+
+      nav.mt-3
+        ul.pagination.justify-content-center
+          li.page-item.disabled#prev
+            a.page-link(aria-label='Previous') Sebelumnya
+
+          li.page-item.active
+            a.page-link#number 1
+    
+          li.page-item#next
+            a.page-link(aria-label='Next') Selanjutnya

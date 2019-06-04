@@ -14,7 +14,7 @@ block content
     .row
       .col-lg-3
       .col-lg-6
-        - href = '/mahasiswa/edit/nim/' + mahasiswa.nim
+        - href = '/mahasiswa/edit'
         form.card(action='', method='post')
           input#csrf(type='hidden' name='_csrf' value=_csrf)
           .card-header

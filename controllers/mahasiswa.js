@@ -478,10 +478,16 @@ exports.getCommentMahasiswa = (req, res) => {
     untuk: req.params.nim,
     dari: req.user.id,  
   });
-  Promise.all([findMahasiswa, countRating])
-  .then(([mahasiswa, count]) => {
+
+  var can = false;
+  if (req.params.nim != req.user.email.split('@')[0]) {
+    can = true;
+  }
+
+  Promise.all([findMahasiswa, countRating, can])
+  .then(([mahasiswa, count, canComment]) => {
     // console.log(count);
-    if (count == 0){
+    if (count == 0 && canComment){
       res.render('mahasiswa/comment', {
         title: 'Tambahkan Komentarmu',
         mahasiswa,
@@ -560,8 +566,10 @@ exports.postCommentMahasiswa = (req, res) => {
 * Show mahasiswa information.
 */
 exports.getEditMahasiswa = (req, res) => {
+  const _nim = req.user.email.split('@')[0];
+  console.log(_nim);
   const findMahasiswa = Mahasiswa.findOne(
-    {nim: req.params.nim}
+    {nim: _nim}
   );
 
   const findUser = User.findOne({
@@ -587,7 +595,8 @@ exports.getEditMahasiswa = (req, res) => {
 */
 exports.postEditMahasiswa = (req, res) => {
   const image = req.body._image;
-  Mahasiswa.findOne({nim: req.params.nim})
+  const _nim = req.user.email.split('@')[0];
+  Mahasiswa.findOne({nim: _nim})
     .then(result => {
       if (result) {
         if (image) {
@@ -597,9 +606,9 @@ exports.postEditMahasiswa = (req, res) => {
         req.flash("success", {
           msg: "Foto berhasil diubah"
         });
-        return res.redirect("/mahasiswa/info/nim/"+req.params.nim);
+        return res.redirect("/mahasiswa/info/"+_nim);
       }
-      throw new Error("Could not update");
+      throw new Error("Gagal mengubah foto");
     })
     .catch(e => {
       req.flash("errors", { msg: e.message });
