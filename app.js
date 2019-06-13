@@ -165,12 +165,12 @@ app.get('/', homeController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
-app.get('/account', userController.getAccount, passportConfig.isAuthenticated);
+app.get('/account', userController.getAccount);
 
 /**
  * API routes
  */
-app.post('/api/file/upload', passportConfig.isAuthenticated, apiController.postUploadFile);
+app.post('/api/file/upload', apiController.postUploadFile);
 
 /**
  * Mahasiswa routes
@@ -181,38 +181,38 @@ app.get('/mahasiswa/bit', mahasiswaController.getMahasiswaBIT);
 app.get('/mahasiswa/enigma', mahasiswaController.getMahasiswaEnigma);
 app.get('/mahasiswa/all', mahasiswaController.getMahasiswaAll);
 app.get('/mahasiswa/allHome', mahasiswaController.getMahasiswaAllHome);
-app.delete('/mahasiswa/delete/:id', passportConfig.isAuthenticated, passportConfig.isAdmin, mahasiswaController.deleteMahasiswa);
+app.delete('/mahasiswa/delete/:id', mahasiswaController.deleteMahasiswa);
 app.get('/mahasiswa/info/:nim', mahasiswaController.getInfoMahasiswa);
-app.get('/mahasiswa/comment/:nim', passportConfig.isAuthenticated, mahasiswaController.getCommentMahasiswa);
-app.post('/mahasiswa/comment/:nim', passportConfig.isAuthenticated, mahasiswaController.postCommentMahasiswa);
-app.get('/mahasiswa/edit/', passportConfig.isAuthenticated, mahasiswaController.getEditMahasiswa);
-app.post('/mahasiswa/edit/', passportConfig.isAuthenticated, mahasiswaController.postEditMahasiswa);
+app.get('/mahasiswa/comment/:nim', mahasiswaController.getCommentMahasiswa);
+app.post('/mahasiswa/comment/:nim', mahasiswaController.postCommentMahasiswa);
+app.get('/mahasiswa/edit/', mahasiswaController.getEditMahasiswa);
+app.post('/mahasiswa/edit/', mahasiswaController.postEditMahasiswa);
 
 /**
  * User routes
  */
-app.delete('/user/delete/:id', passportConfig.isAuthenticated, passportConfig.isAdmin, userController.deleteUser);
-app.delete('/rating/delete/:id', passportConfig.isAuthenticated, passportConfig.isAdmin, ratingController.deleteRating);
-app.delete('/file/delete/:id', passportConfig.isAuthenticated, passportConfig.isAdmin, fileController.deleteFile);
+app.delete('/user/delete/:id', userController.deleteUser);
+app.delete('/rating/delete/:id', ratingController.deleteRating);
+app.delete('/file/delete/:id', fileController.deleteFile);
 
 
 /**
  * Dashboard routes
  */
-app.get('/dashboard', passportConfig.isAuthenticated, passportConfig.isAdmin, dashboardController.getDashboardHome);
-app.get('/dashboard/all', passportConfig.isAuthenticated, passportConfig.isAdmin, dashboardController.getDashboardAll);
-app.get('/dashboard/user', passportConfig.isAuthenticated, passportConfig.isAdmin, dashboardController.getDashboardUser);
-app.get('/dashboard/mahasiswa', passportConfig.isAuthenticated, passportConfig.isAdmin, dashboardController.getDashboardMahasiswa);
-app.get('/dashboard/rating', passportConfig.isAuthenticated, passportConfig.isAdmin, dashboardController.getDashboardRating);
-app.get('/dashboard/file', passportConfig.isAuthenticated, passportConfig.isAdmin, dashboardController.getDashboardFile);
+app.get('/dashboard', dashboardController.getDashboardHome);
+app.get('/dashboard/all', dashboardController.getDashboardAll);
+app.get('/dashboard/user', dashboardController.getDashboardUser);
+app.get('/dashboard/mahasiswa', dashboardController.getDashboardMahasiswa);
+app.get('/dashboard/rating', dashboardController.getDashboardRating);
+app.get('/dashboard/file', dashboardController.getDashboardFile);
 
 /**
  * OAuth authentication routes. (Sign in)
  */
-app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect(req.session.returnTo || '/');
-});
+// app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
+// app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+//   res.redirect(req.session.returnTo || '/');
+// });
 
 /**
  * Error Handler.
