@@ -60,7 +60,7 @@ const app = express();
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rotten-potatoes');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/skipedia');
 mongoose.connection.on('error', (err) => {
   console.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
@@ -180,6 +180,7 @@ app.get('/mahasiswa/unix', mahasiswaController.getMahasiswaUNIX);
 app.get('/mahasiswa/bit', mahasiswaController.getMahasiswaBIT);
 app.get('/mahasiswa/enigma', mahasiswaController.getMahasiswaEnigma);
 app.get('/mahasiswa/all', mahasiswaController.getMahasiswaAll);
+app.get('/mahasiswa/allHome', mahasiswaController.getMahasiswaAllHome);
 app.delete('/mahasiswa/delete/:id', passportConfig.isAuthenticated, passportConfig.isAdmin, mahasiswaController.deleteMahasiswa);
 app.get('/mahasiswa/info/:nim', mahasiswaController.getInfoMahasiswa);
 app.get('/mahasiswa/comment/:nim', passportConfig.isAuthenticated, mahasiswaController.getCommentMahasiswa);

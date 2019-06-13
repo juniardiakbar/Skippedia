@@ -1,6 +1,7 @@
 const Mahasiswa = require("../models/Mahasiswa");
 const Rating = require("../models/Rating");
 const User = require("../models/User")
+
 /**
  * GET /mahasiswa
  * Show angkatan.
@@ -260,6 +261,97 @@ exports.getMahasiswaAll = (req, res) => {
 
   var options;
   if (_angkatan != 'all'){
+    options = {
+      $and: [
+        {
+          angkatan: _angkatan
+        },
+        {
+          $or: [
+            {
+              nama: new RegExp(search, "i")
+            },
+            {
+              nim: new RegExp(search, "i")
+            }
+          ]
+        }
+      ]
+    };
+  } else {
+    options = {
+      $or: [
+        {
+          nama: new RegExp(search, "i")
+        },
+        {
+          nim: new RegExp(search, "i")
+        }
+      ]
+    };
+  }
+
+  const unknownUser = !(req.user);
+  const countMahasiswa = Mahasiswa.countDocuments(options);
+  const totalMahasiswa = Mahasiswa.countDocuments(options);
+  var findMahasiswa = Mahasiswa.find(options)
+    .populate('image')
+    .limit(limit)
+    .skip((page - 1) * limit)
+    .sort(sortObject);
+
+  Promise.all([findMahasiswa, countMahasiswa, totalMahasiswa])
+  .then(([mahasiswa, count, total]) => {
+    res.render('mahasiswa/all', {
+      title: 'Cari Mahasiswa Enigma 2015',
+      unknownUser,
+      page,
+      limit,
+      sort,
+      count,
+      method,
+      pages: Math.ceil(total / limit),
+      mahasiswa,
+
+      pageQuery: req.pageQuery || page,
+      limitQuery: req.limitQuery || limit,
+      methodQuery: req.methodQuery || method,
+      sortQuery: req.sortQuery || sort,
+      searchQuery: req.searchQuery || search
+    });
+  })
+  .catch(() => {
+    throw new Error("Error");
+  });
+};
+
+/**
+ * GET /mahasiswa/all
+ * GET mahasiswa
+ */
+exports.getMahasiswaAllHome = (req, res) => {
+  let {
+    page, // page number
+    limit, // limit per page
+    sort, // sortedBy
+    method, // sortMethod
+    search,
+    angkatan,
+    jurusan,
+  } = req.query;
+
+  limit = parseInt(limit, 10) || 10;
+  page = parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
+  sort = sort || "nim";
+  method = method || "ASC";
+  search = search || "";
+  const sortObject = {};
+  sortObject[sort] = method;
+  const _angkatan = angkatan;
+  const _jurusan = jurusan;
+
+  var options;
+  if (_angkatan != 'all'){
     if (_jurusan != 'all'){
       options = {
         $and: [
@@ -276,6 +368,8 @@ exports.getMahasiswaAll = (req, res) => {
                 nim: new RegExp(search, "i")
               }
             ]
+          },{
+            'rating':{$gt:0}
           }
         ]
       };
@@ -294,6 +388,8 @@ exports.getMahasiswaAll = (req, res) => {
                 nim: new RegExp(search, "i")
               }
             ]
+          },{
+            'rating':{$gt:0}
           }
         ]
       };
@@ -314,17 +410,26 @@ exports.getMahasiswaAll = (req, res) => {
                 nim: new RegExp(search, "i")
               }
             ]
+          },{
+            'rating':{$gt:0}
           }
         ]
       };
     } else {
       options = {
-        $or: [
+        $and: [
           {
-            nama: new RegExp(search, "i")
+            'rating':{$gt:0}
           },
           {
-            nim: new RegExp(search, "i")
+            $or: [
+              {
+                nama: new RegExp(search, "i")
+              },
+              {
+                nim: new RegExp(search, "i")
+              }
+            ]
           }
         ]
       };
@@ -342,7 +447,7 @@ exports.getMahasiswaAll = (req, res) => {
 
   Promise.all([findMahasiswa, countMahasiswa, totalMahasiswa])
   .then(([mahasiswa, count, total]) => {
-    res.render('mahasiswa/all', {
+    res.render('mahasiswa/allHome', {
       title: 'Cari Mahasiswa Enigma 2015',
       unknownUser,
       page,
@@ -404,7 +509,7 @@ exports.getInfoMahasiswa = (req, res) => {
     method, // sortMethod
   } = req.query;
 
-  limit = 2;
+  limit = 10;
   page = parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
   sort = "createdAt";
   method = "DESC";
@@ -539,12 +644,12 @@ exports.postCommentMahasiswa = (req, res) => {
             req.flash("success", {
               msg: "Komentar Anda berhasil dibuat!"
             });
-            res.redirect("/mahasiswa/info/nim/"+req.params.nim);    
+            res.redirect("/mahasiswa/info/"+req.params.nim);    
           } else {
             req.flash("errors", {
               msg: "Tidak bisa memberi komentar!"
             });
-            res.redirect("/mahasiswa/info/nim/"+req.params.nim);    
+            res.redirect("/mahasiswa/info/"+req.params.nim);    
           }
         })
       })
@@ -555,7 +660,7 @@ exports.postCommentMahasiswa = (req, res) => {
   })
   .catch(e => {
     req.flash("errors", { msg: e.message });
-    res.redirect("/mahasiswa/info/nim/"+req.params.nim);
+    res.redirect("/mahasiswa/info/"+req.params.nim);
     console.log("Error occured", e);
     return res.redirect("back");
   });

@@ -41,76 +41,15 @@ exports.getDashboardAll = (req, res) => {
   const _jurusan = jurusan;
 
   var options;
-  if (_angkatan != 'all'){
-    if (_jurusan != 'all'){
-      options = {
-        $and: [
-          {
-            angkatan: _angkatan,
-            jurusan: _jurusan
-          },
-          {
-            $or: [
-              {
-                nama: new RegExp(search, "i")
-              },
-              {
-                nim: new RegExp(search, "i")
-              }
-            ]
-          }
-        ]
-      };
-    } else {
-      options = {
-        $and: [
-          {
-            angkatan: _angkatan
-          },
-          {
-            $or: [
-              {
-                nama: new RegExp(search, "i")
-              },
-              {
-                nim: new RegExp(search, "i")
-              }
-            ]
-          }
-        ]
-      };
-    }
-  } else {
-    if (_jurusan != 'all'){
-      options = {
-        $and: [
-          {
-            jurusan: _jurusan
-          },
-          {
-            $or: [
-              {
-                nama: new RegExp(search, "i")
-              },
-              {
-                nim: new RegExp(search, "i")
-              }
-            ]
-          }
-        ]
-      };
-    } else {
-      options = {
-        $or: [
-          {
-            nama: new RegExp(search, "i")
-          },
-          {
-            nim: new RegExp(search, "i")
-          }
-        ]
-      };
-    }
+  options = {
+    $or: [
+      {
+        nama: new RegExp(search, "i")
+      },
+      {
+        nim: new RegExp(search, "i")
+      },
+    ]
   }
 
   const unknownUser = !(req.user);
@@ -124,8 +63,8 @@ exports.getDashboardAll = (req, res) => {
 
   Promise.all([findMahasiswa, countMahasiswa, totalMahasiswa])
   .then(([mahasiswa, count, total]) => {
-    res.render('mahasiswa/all', {
-      title: 'Cari Mahasiswa Enigma 2015',
+    res.render('dashboard/all', {
+      title: '',
       unknownUser,
       page,
       limit,

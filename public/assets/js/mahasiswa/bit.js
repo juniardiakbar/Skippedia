@@ -19,7 +19,7 @@ var sort = $('#sort').val();
 var method = $('#method').val();
 
 var url = '/mahasiswa/all?'
-var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=unix';
+var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
 
 $(document).on('click','#namaASC', function(){
 	ajax(url+'sort=nama&method=DESC&'+query+'&jurusan=all');
@@ -93,7 +93,7 @@ $('#prev').on('click', function() {
     $('#page').val(parseInt($('#page').val()) - 1);
     var page = $('#page').val();
 
-    var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=unix';
+    var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
     ajax(url+'sort='+sort+'&method='+method+'&'+query+'&jurusan=all');
     if (page == '1'){
       $('#prev').addClass('disabled');
@@ -108,7 +108,7 @@ $('#next').on('click', function() {
     $('#page').val(parseInt($('#page').val()) + 1);
     var page = $('#page').val();
 
-    var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=unix';
+    var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
     ajax(url+'sort='+sort+'&method='+method+'&'+query+'&jurusan=all');
     if (page == $('#pages').val() || $('#pages').val() == '1'){
       $('#next').addClass('disabled');
@@ -124,7 +124,7 @@ $('#search').keyup(function() {
   var page = 1;
   $('#number').text(page);  
   var url = '/mahasiswa/all?'
-  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=unix';
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
   ajax(url+'sort='+sort+'&method='+method+'&'+query+'&jurusan=all');  
   console.log('OK');
 });

@@ -12,5 +12,5 @@ for data in mahasiswa
     td= data.nim
     td= data.rating
     td
-      a.icon(href=`${href}`)
-        i.fas.fa-search
+      a.deleteButton.btn(role='button' data-deletedobject=data.id)
+        i.fas.fa-trash

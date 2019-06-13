@@ -1,0 +1,12 @@
+for data in mahasiswa
+  //- - var href = link+data.nim
+  tr
+    td
+      if (!data.image) 
+        span.avatar.d-block.rounded(style='background-image: url(/img/ava-default.jpg)')
+      else
+        - var href = 'background-image: url('+data.image.url+')'
+        span.avatar.d-block.rounded(style=`${href}`)
+    td= data.nama
+    td= data.nim
+    td= data.rating

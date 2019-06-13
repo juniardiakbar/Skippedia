@@ -12,7 +12,7 @@ function ajax(_url, _div){
 // this.csrf = csrf.value;
 // axios.defaults.headers.common['X-CSRF-TOKEN'] = this.csrf;
 var limit = 10;
-var url = '/mahasiswa/all?'
+var url = '/mahasiswa/allHome?'
 var method = 'page=&limit='+limit+'&search=&angkatan=all';
 
 $('#allCarry').on('click', function(){

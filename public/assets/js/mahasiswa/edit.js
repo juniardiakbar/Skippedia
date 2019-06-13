@@ -19,7 +19,7 @@ $(document).ready(function() {
 
     init() {
       // Success
-      this.on('success', (data) => {
+      this.on('success', function (data) {
         let response = JSON.parse(data.xhr.response);
         let file = response.message._id;
 
@@ -31,20 +31,20 @@ $(document).ready(function() {
             showConfirmButton: false,
             timer: 1500
           })
-            .then(() => {
+            .then(function () {
               $("#myImagePicker").val(file);
             });
         }
       });
 
       // Error
-      this.on('error', () => {
+      this.on('error', function () {
         swal({
           type: 'error',
           title: 'Oops...',
           text: 'File format must .png, .jpg, .gif, .jpeg and max file is 1',
         })
-          .then(() => {
+          .then(function () {
             location.reload();
           });
       });
