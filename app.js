@@ -32,6 +32,8 @@ seeders();
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
 dotenv.config({ path: '.env.example' });
+const passportConfig = require("./config/passport");
+const { isAuthenticated, isAdmin } = passportConfig;
 
 /**
  * Controllers (route handlers).
@@ -43,11 +45,6 @@ const dashboardController = require('./controllers/dashboard');
 const ratingController = require('./controllers/rating');
 const apiController = require('./controllers/apiFile');
 const fileController = require('./controllers/file');
-
-/**
- * Passport configuration.
- */
-const passportConfig = require('./config/passport');
 
 /**
  * Create Express server.
@@ -183,36 +180,36 @@ app.get('/mahasiswa/all', mahasiswaController.getMahasiswaAll);
 app.get('/mahasiswa/allHome', mahasiswaController.getMahasiswaAllHome);
 app.delete('/mahasiswa/delete/:id', mahasiswaController.deleteMahasiswa);
 app.get('/mahasiswa/info/:nim', mahasiswaController.getInfoMahasiswa);
-app.get('/mahasiswa/comment/:nim', mahasiswaController.getCommentMahasiswa);
-app.post('/mahasiswa/comment/:nim', mahasiswaController.postCommentMahasiswa);
-app.get('/mahasiswa/edit/', mahasiswaController.getEditMahasiswa);
-app.post('/mahasiswa/edit/', mahasiswaController.postEditMahasiswa);
+app.get('/mahasiswa/comment/:nim', isAuthenticated, mahasiswaController.getCommentMahasiswa);
+app.post('/mahasiswa/comment/:nim', isAuthenticated, mahasiswaController.postCommentMahasiswa);
+app.get('/mahasiswa/edit/', isAuthenticated, mahasiswaController.getEditMahasiswa);
+app.post('/mahasiswa/edit/', isAuthenticated, mahasiswaController.postEditMahasiswa);
 
 /**
  * User routes
  */
-app.delete('/user/delete/:id', userController.deleteUser);
-app.delete('/rating/delete/:id', ratingController.deleteRating);
-app.delete('/file/delete/:id', fileController.deleteFile);
+app.delete('/user/delete/:id', isAuthenticated, userController.deleteUser);
+app.delete('/rating/delete/:id', isAuthenticated, ratingController.deleteRating);
+app.delete('/file/delete/:id', isAuthenticated, fileController.deleteFile);
 
 
 /**
  * Dashboard routes
  */
-app.get('/dashboard', dashboardController.getDashboardHome);
-app.get('/dashboard/all', dashboardController.getDashboardAll);
-app.get('/dashboard/user', dashboardController.getDashboardUser);
-app.get('/dashboard/mahasiswa', dashboardController.getDashboardMahasiswa);
-app.get('/dashboard/rating', dashboardController.getDashboardRating);
-app.get('/dashboard/file', dashboardController.getDashboardFile);
+app.get('/dashboard', isAuthenticated, isAdmin, dashboardController.getDashboardHome);
+app.get('/dashboard/all', isAuthenticated, isAdmin, dashboardController.getDashboardAll);
+app.get('/dashboard/user', isAuthenticated, isAdmin, dashboardController.getDashboardUser);
+app.get('/dashboard/mahasiswa', isAuthenticated, isAdmin, dashboardController.getDashboardMahasiswa);
+app.get('/dashboard/rating', isAuthenticated, isAdmin, dashboardController.getDashboardRating);
+app.get('/dashboard/file', isAuthenticated, isAdmin, dashboardController.getDashboardFile);
 
 /**
  * OAuth authentication routes. (Sign in)
  */
-// app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
-// app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-//   res.redirect(req.session.returnTo || '/');
-// });
+app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
+app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+  res.redirect(req.session.returnTo || '/');
+});
 
 /**
  * Error Handler.
