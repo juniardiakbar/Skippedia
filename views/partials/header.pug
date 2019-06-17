@@ -21,11 +21,10 @@
               span= user.name
               //- i.caret
             ul.dropdown-menu
-              li.dropdown-item
+              li.dropdown-item(style='padding: 10px;')
                 if (user.email != 'admin@skipedia.id')
                   a(href='/account') My Account
                 else
                   a(href='/dashboard') Dashboard
-              li.divider.dropdown-item
-              li.dropdown-item
+              li.dropdown-item(style='padding: 10px;')
                 a(href='/logout') Logout

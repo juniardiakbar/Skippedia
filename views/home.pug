@@ -21,15 +21,19 @@ block content
               th.d-none.d-sm-table-cell NIM
               th.d-none.d-md-table-cell Rating
           tbody#tabelCarry
+            - var link = '/mahasiswa/info/'
             for data in bestMahasiswa
+              - var href = link+data.nim
               tr
                 td
                   if (!data.image) 
                     span.avatar.d-block.rounded(style='background-image: url(/img/ava-default.jpg)')
                   else
-                    - var href = 'background-image: url('+data.image.url+')'
-                    span.avatar.d-block.rounded(style=`${href}`)
-                td= data.nama
+                    - var hrefImg = 'background-image: url('+data.image.url+')'
+                    span.avatar.d-block.rounded(style=`${hrefImg}`)
+                td
+                   
+                  a(href=`${href}` style='color : black')= data.nama
                 td= data.nim
                 td= data.rating
 
@@ -49,14 +53,17 @@ block content
               th.d-none.d-sm-table-cell NIM
               th.d-none.d-md-table-cell Rating
           tbody#tabelSkip
+            - var link = '/mahasiswa/info/'
             for data in worstMahasiswa
+              - var href = link+data.nim
               tr
                 td
                   if (!data.image) 
                     span.avatar.d-block.rounded(style='background-image: url(./img/ava-default.jpg)')
                   else
-                    - var href = 'background-image: url('+data.image.url+')'
-                    span.avatar.d-block.rounded(style=`${href}`)
-                td= data.nama
+                    - var hrefImg = 'background-image: url('+data.image.url+')'
+                    span.avatar.d-block.rounded(style=`${hrefImg}`)
+                td
+                  a(href=`${href}` style='color : black')= data.nama
                 td= data.nim
                 td= data.rating

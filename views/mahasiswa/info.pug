@@ -37,24 +37,27 @@ block content
           ul.list-group.card-list-group
           -var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
           for data in rating
-            li.list-group-item.py-5
+            li.list-group-item.py-5(style='border-color: rgba(0, 0, 0, 0.2); background : #FAF4E8')
               .media
                 .media-body
-                  .media-heading
-                    h5 Seseorang memberikan komentar pada #{data.createdAt.getDate()} #{monthNames[data.createdAt.getMonth()]} #{data.createdAt.getFullYear()} #{data.createdAt.getHours()}:#{data.createdAt.getMinutes()}:#{data.createdAt.getSeconds()}
-                    if (data.nilai == 5)
-                      span.badge.badge-success Excelent
-                    else if (data.nilai == 4)
-                      span.badge.badge-primary Very Good
-                    else if (data.nilai == 3)
-                      span.badge.badge-info Good
-                    else if (data.nilai == 2)
-                      span.badge.badge-waring Fair
-                    else if (data.nilai == 1)
-                      span.badge.badge-danger Poor
+                  div(style='padding: 0px 30px; width: 700px; font-size: 18px;')
+                    p.text-left= data.content
 
-                  div
-                    = data.content
+                  .media-heading(style='padding-left: 30px')
+                    if (data.nilai == 5)
+                      span.badge.badge-success(style='font-size: 15px;') Excellent
+                    else if (data.nilai == 4)
+                      span.badge.badge-primary(style='font-size: 15px;') Very Good
+                    else if (data.nilai == 3)
+                      span.badge.badge-info(style='font-size: 15px;') Good
+                    else if (data.nilai == 2)
+                      span.badge.badge-warning(style='font-size: 15px;') Fair
+                    else if (data.nilai == 1)
+                      span.badge.badge-danger(style='font-size: 15px;') Poor
+                    p(style='color: #a3a3a3; float: right') #{data.createdAt.getDate()} #{monthNames[data.createdAt.getMonth()]} #{data.createdAt.getFullYear()} #{data.createdAt.getHours()}:#{data.createdAt.getMinutes()}:#{data.createdAt.getSeconds()}
+                    i.fa.fa-clock-o.mt-1(style='color: #a3a3a3; float: right;')
+
+                  
 
           nav.mt-3
             ul.pagination.justify-content-center

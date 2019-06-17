@@ -8,7 +8,8 @@ for data in mahasiswa
       else
         - var hrefImg = 'background-image: url('+data.image.url+')'
         span.avatar.d-block.rounded(style=`${hrefImg}`)
-    td= data.nama
+    td
+      a(href=`${href}` style='color : black')= data.nama
     td= data.nim
     td= data.rating
     td
