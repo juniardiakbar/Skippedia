@@ -623,7 +623,7 @@ exports.postCommentMahasiswa = (req, res) => {
     untuk,
     dari
   });
-  // console.log(nilai)
+
   newRating
   .save()
   .then(function(result) {
@@ -664,6 +664,127 @@ exports.postCommentMahasiswa = (req, res) => {
     console.log("Error occured", e);
     return res.redirect("back");
   });
+}
+
+/**
+ * DELETE /mahasiswa/id/:id
+ * Delete mahasiswa
+ */
+exports.deleteCommentMahasiswa = (req, res) => {
+  const untuk = req.params.nim;
+
+  Rating.findById(req.params.id)
+    .then(result => {
+      if (result) {
+        const mhs = Mahasiswa.findOne({nim: untuk});
+        const mhsRating = Rating.find({untuk: req.params.nim})
+
+        Promise.all([mhsRating, mhs])
+        .then(function([rating, mhs]) {
+          result.remove(req.params.id);
+          var sum = 0;
+          var i = 0;
+          rating.forEach(function(val) {
+            sum = sum + val.nilai;
+          })
+          sum = sum - result.nilai;
+          mhs.rating = rating.length != 1 ? sum/(rating.length-1) : 0;
+          mhs.save();
+        })
+      } else {
+        throw new Error("Delete fail");
+      }
+    })
+
+    .then(() => {
+      res.json({
+        success: true,
+        message: "Successfully deleted"
+      });
+    })
+    .catch(e => {
+      res.json({
+        success: false,
+        message: e.message
+      });
+    });
+}
+
+/**
+* GET /mahasiswa/comment/:id/edit
+* Edit mahasiswa comment.
+*/
+exports.getEditCommentMahasiswa = (req, res) => {
+  const findComment = Rating.findById(req.params.id);
+  const untuk = Mahasiswa.findOne({nim: req.params.nim});
+  Promise.all([findComment, untuk])
+  .then(([comment, mahasiswa]) => {
+    res.render('mahasiswa/editComment', {
+      title: 'Edit Comment',
+      comment,
+      mahasiswa,
+    });
+  })
+  .catch(() => {
+    throw new Error("Error");
+  });  
+};
+
+/**
+* POST /mahasiswa/comment/:id/edit
+* Edit mahasiswa comment.
+ */
+exports.postEditCommentMahasiswa = (req, res) => {
+  const { id } = req.params;
+  const { nilai, content } = req.body;
+  const untuk = req.params.nim;
+  const dari = req.user.id;
+  
+  Rating.findById(id)
+    .then(result => {
+      if (result) {
+        const mhs = Mahasiswa.findOne({nim: untuk});
+        const mhsRating = Rating.find({untuk: req.params.nim})
+        const oldRating = result.nilai;
+
+        Promise.all([mhsRating, mhs])
+        .then(function([rating, mhs]) {
+          result.content = content || result.content;
+          result.nilai = nilai || result.nilai;
+          result.save();
+  
+          var sum = 0;
+          var i = 0;
+          rating.forEach(function(val) {
+            sum = sum + val.nilai;
+          })
+          sum = sum + parseInt(nilai);
+          sum = sum - oldRating;
+          mhs.rating = sum/(rating.length);
+          mhs.save().then(function(result) {
+            if (result) {
+              req.flash("success", {
+                msg: "Komentar Anda berhasil dibuat!"
+              });
+              return res.redirect("/mahasiswa/info/"+untuk);
+            } else {
+              req.flash("errors", {
+                msg: "Tidak bisa memberi komentar!"
+              });
+              return res.redirect("/mahasiswa/info/"+req.params.nim);    
+            }
+          })
+        })
+      } else {
+        throw new Error("Could not save");
+      }
+    })
+    .catch(e => {
+      req.flash("errors", { msg: e.message });
+      res.redirect("/mahasiswa/info/"+req.params.nim);
+      console.log("Error occured", e);
+      return res.redirect("back");
+    });
 }
 
 /**

@@ -1,10 +1,12 @@
 extends ../layout
 
-block head
-  link(rel="stylesheet" href="/assets/css/mahasiswa/info.css")
-
 block script
+  script(src="/js/sweetalert2.all.min.js")
   script(src="/assets/js/mahasiswa/info.js")
+
+block head
+  link(href="/css/sweetalert2.min.css")
+  link(rel="stylesheet" href="/assets/css/mahasiswa/info.css")
 
 block content
   .row
@@ -37,7 +39,7 @@ block content
           ul.list-group.card-list-group
           -var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
           for data in rating
-            li.list-group-item.py-5(style='border-color: rgba(0, 0, 0, 0.2); background : #FAF4E8')
+            li.list-group-item.py-5(style='border-color: rgba(0, 0, 0, 0.2); background : #FAF4E8') 
               .media
                 .media-body
                   div(style='padding: 0px 30px; width: 700px; font-size: 18px;')
@@ -56,8 +58,12 @@ block content
                       span.badge.badge-danger(style='font-size: 15px;') Poor
                     p(style='color: #a3a3a3; float: right') #{data.createdAt.getDate()} #{monthNames[data.createdAt.getMonth()]} #{data.createdAt.getFullYear()} #{data.createdAt.getHours()}:#{data.createdAt.getMinutes()}:#{data.createdAt.getSeconds()}
                     i.fa.fa-clock-o.mt-1(style='color: #a3a3a3; float: right;')
-
-                  
+                    if (user._id == data.dari)
+                      form(action="#" method="GET")
+                        input#csrf(type='hidden' name='_csrf' value=_csrf)
+                      div(style='display: block; padding-top: 10px;')
+                        a.btn.btn-blue(href=`/mahasiswa/comment/${mahasiswa.nim}/${data._id}/edit`) Edit
+                        a.btn.btn-blue#delete(role='button' data-deletedobject=data.id data-nim=mahasiswa.nim) Hapus 
 
           nav.mt-3
             ul.pagination.justify-content-center

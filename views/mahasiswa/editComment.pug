@@ -1,0 +1,41 @@
+extends ../layout
+
+block script
+  script(src="/assets/js/mahasiswa/comment.js")
+
+block head
+  link(rel="stylesheet" href="/assets/css/mahasiswa/comment.css")
+ 
+block content
+  .container
+    .row
+      .col-lg-3
+      .col-lg-6
+        form.card(action='#', method='post')
+          input#csrf(type='hidden' name='_csrf' value=_csrf)
+          .card-header
+            h3.card-title Edit komentarmu
+          .card-body
+            .form-group
+              label.form-label Untuk
+              .row
+                .col-6
+                  input.form-control(type='text', name='nama', value=`${mahasiswa.nama}`, disabled='')
+                .col-6 
+                  input.form-control(type='text', name='nim', value=`${mahasiswa.nim}`, disabled='')
+            .form-group
+              label.form-label Rating
+                .rating
+                  span.star.fa.fa-star#r1
+                  span.star.fa.fa-star#r2
+                  span.star.fa.fa-star#r3
+                  span.star.fa.fa-star#r4
+                  span.star.fa.fa-star#r5
+                  span#badge.badge.badge-secondary Not Rated
+                input.form-control#form-rating(style='display: none;', type='number', name='nilai', value='')
+            .form-group
+              label.form-label
+                | Komentar
+              textarea.form-control(name='content', rows='6', required, placeholder='Komentar..')= comment.content
+            .form-footer
+              button.btn.btn-primary.btn-block(type='submit') Tambahkan

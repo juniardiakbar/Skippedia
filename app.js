@@ -182,6 +182,9 @@ app.delete('/mahasiswa/delete/:id', mahasiswaController.deleteMahasiswa);
 app.get('/mahasiswa/info/:nim', mahasiswaController.getInfoMahasiswa);
 app.get('/mahasiswa/comment/:nim', isAuthenticated, mahasiswaController.getCommentMahasiswa);
 app.post('/mahasiswa/comment/:nim', isAuthenticated, mahasiswaController.postCommentMahasiswa);
+app.get('/mahasiswa/comment/:nim/:id/edit', isAuthenticated, mahasiswaController.getEditCommentMahasiswa);
+app.post('/mahasiswa/comment/:nim/:id/edit', isAuthenticated, mahasiswaController.postEditCommentMahasiswa);
+app.delete('/mahasiswa/comment/:nim/:id/', isAuthenticated, mahasiswaController.deleteCommentMahasiswa);
 app.get('/mahasiswa/edit/', isAuthenticated, mahasiswaController.getEditMahasiswa);
 app.post('/mahasiswa/edit/', isAuthenticated, mahasiswaController.postEditMahasiswa);
 
