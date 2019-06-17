@@ -1,8 +1,7 @@
-.navbar.navbar-light.fixed-top.navbar-expand-lg
+.navbar.navbar-light.fixed-top.navbar-expand-lg(style='background-color: #FEBF1E')
   .container
     a.navbar-brand(href='/')
-      i.fas.fa-cube
-      | Skipedia
+      img(src="/img/logo.svg", alt="Logo", height='30')
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='.navbar-collapse')
       span.sr-only Toggle navigation
       span.navbar-toggler-icon
@@ -15,7 +14,7 @@
       ul.nav.navbar-nav.ml-auto
         if !user
           li.nav-item(class=(title === 'Login') ? 'active' : undefined)
-            a.btn.btn-gray-dark(href='/login') Login
+            a.btn.btn-primary.myButton(href='/login') Login
         else
           li.dropdown(class=(title === 'Account Management') ? 'active' : undefined).nav-item
             a.dropdown-toggle.nav-link(href='#', data-toggle='dropdown')
