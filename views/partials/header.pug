@@ -8,23 +8,23 @@
     .collapse.navbar-collapse
       ul.nav.navbar-nav
         li.nav-item(class=(title === 'Home') ? 'active' : undefined)
-          a.nav-link(href='/') Home
+          a.nav-link(href='/' style="font-family: 'Open Sans', sans-serif;") Home
         li.nav-item(class=(title === 'Cari Mahasiswa') ? 'active' : undefined)
-          a.nav-link(href='/mahasiswa') Cari Mahasiswa
+          a.nav-link(href='/mahasiswa' style="font-family: 'Open Sans', sans-serif;") Cari Mahasiswa
       ul.nav.navbar-nav.ml-auto
         if !user
           li.nav-item(class=(title === 'Login') ? 'active' : undefined)
-            a.btn.btn-primary.myButton(href='/login') Login
+            a.btn.btn-primary.classicBtn(href='/login') Login
         else
           li.dropdown(class=(title === 'Account Management') ? 'active' : undefined).nav-item
             a.dropdown-toggle.nav-link(href='#', data-toggle='dropdown')
-              span= user.name
+              span(style="font-family: 'Open Sans', sans-serif;")= user.name
               //- i.caret
             ul.dropdown-menu
               li.dropdown-item(style='padding: 10px;')
                 if (user.email != 'admin@skipedia.id')
-                  a(href='/account') My Account
+                  a(href='/account' style='display: block;') My Account
                 else
-                  a(href='/dashboard') Dashboard
+                  a(href='/dashboard' style='display: block;') Dashboard
               li.dropdown-item(style='padding: 10px;')
-                a(href='/logout') Logout
+                a(href='/logout' style='display: block;') Logout
