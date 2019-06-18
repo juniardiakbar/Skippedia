@@ -42,7 +42,7 @@ block content
         img(src=user.gravatar(), class='profile', width='100', height='100')
     .form-group
       .offset-sm-3.col-md-7.pl-2
-        button.btn.btn.btn-primary.classicBtn(type='submit')
+        button.btn.btn.btn-gray-dark.classicBtn(type='submit')
           i.fas.fa-pencil-alt.fa-sm
           | Update Profile
 
@@ -61,7 +61,7 @@ block content
         input.form-control(type='password', name='confirmPassword', id='confirmPassword', autocomplete='new-password')
     .form-group
       .offset-sm-3.col-md-7.pl-2
-        button.btn.btn-primary.classicBtn(type='submit')
+        button.btn.btn-gray-dark.classicBtn(type='submit')
           i.fas.fa-lock.fa-sm
           | Change Password
 
@@ -73,7 +73,7 @@ block content
       p.offset-sm-3.col-md-7.pl-2 You can delete your account, but keep in mind this action is irreversible.
       input(type='hidden', name='_csrf', value=_csrf)
       .offset-sm-3.col-md-7.pl-2
-        button.btn.btn-danger.classicBtn(type='submit')
+        button.btn.btn-gray-dark.classicBtn(type='submit')
           i.fas.fa-trash-alt.fa-sm
           | Delete my account
 

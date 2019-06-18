@@ -14,7 +14,7 @@
       ul.nav.navbar-nav.ml-auto
         if !user
           li.nav-item(class=(title === 'Login') ? 'active' : undefined)
-            a.btn.btn-primary.classicBtn(href='/login') Login
+            a.btn.btn-gray-dark.classicBtn(href='/login') Login
         else
           li.dropdown(class=(title === 'Account Management') ? 'active' : undefined).nav-item
             a.dropdown-toggle.nav-link(href='#', data-toggle='dropdown')
