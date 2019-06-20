@@ -31,6 +31,7 @@
 - Run Skipedia with these command
 ```
 docker-compose up
+docker-compose up --build (for the first time)
 ```
 - App and database will running
 
