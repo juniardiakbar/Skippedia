@@ -10,7 +10,6 @@
 - Administrator page
 - CSRF protection
 - Change user profile picture
-- Eslint airbnb configuration 
 
 ## Dependency
 - Node.js version 12.3
@@ -27,6 +26,7 @@
 - Database will running at localhost:27017 
 
 ## How To Use
+### With docker
 - Install docker and docker-compose
 - Run Skipedia with these command
 ```
@@ -34,6 +34,14 @@ docker-compose up
 ```
 - App and database will running
 
+### Without docker
+- Install node.js version 12.3
+- Install MongoDB version 4.0
+- Run these command
+```
+npm install
+npm start app.js
+```
 
 ## Big Thanks
 - Hackathon Starter from Sahat https://github.com/sahat/hackathon-starter
