@@ -1,4 +1,4 @@
-# Skipedia Web Application
+# Skippedia Web Application
 ![alt text](https://raw.githubusercontent.com/juniardiakbar/Skippedia/master/pict/6.jpg)
 
 ## Features
