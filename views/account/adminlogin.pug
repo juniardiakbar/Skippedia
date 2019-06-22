@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  .row
+    .col.col-login.mx-auto
+      form.card(action='', method='post')
+        input(type='hidden', name='_csrf', value=_csrf)
+        .card-body
+          .card-title.text-center(style='font-weight : bolder') LOGIN ADMIN
+          .form-group
+            label.form-label Email
+            input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, autocomplete='email', required)
+          .form-group
+            label.form-label
+              | Password
+            input.form-control(type='password', name='password', id='password', placeholder='Password', autocomplete='current-password', required)
+          .form-footer
+            button.btn.btn-gray-dark.btn-block.classicBtn(type='submit') Sign in

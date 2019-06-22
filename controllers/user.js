@@ -8,6 +8,19 @@ const User = require('../models/User');
 const randomBytesAsync = promisify(crypto.randomBytes);
 
 /**
+ * GET /adminlogin
+ * Admin Login page.
+ */
+exports.getAdminLogin = (req, res) => {
+  if (req.user) {
+    return res.redirect('/');
+  }
+  res.render('account/adminlogin', {
+    title: 'Admin Login'
+  });
+};
+
+/**
  * GET /login
  * Login page.
  */

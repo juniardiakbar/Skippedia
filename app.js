@@ -160,9 +160,10 @@ exports.upload = multer({
  */
 app.get('/', homeController.index);
 app.get('/login', userController.getLogin);
-app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
 app.get('/account', userController.getAccount);
+app.get('/adminlogin', userController.getAdminLogin);
+app.post('/adminlogin', userController.postLogin);
 
 /**
  * API routes
