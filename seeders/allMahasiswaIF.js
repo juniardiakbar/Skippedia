@@ -478,6 +478,7 @@ module.exports = new Promise((resolve, reject) => {
           nama: _nama,
           angkatan: _angkatan,
           rating: 0,
+          count : 0,
           image: null,
           jurusan: 'if',
         });

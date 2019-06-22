@@ -16,6 +16,7 @@ exports.index = (req, res) => {
   method = "DESC";
   const sortObject = {};
   sortObject[sort] = method;
+  sortObject["count"] = "DESC";
 
   var findBestMahasiswa = Mahasiswa.find({'rating':{$gt:0}})
     .populate('image')
@@ -25,6 +26,7 @@ exports.index = (req, res) => {
   method = "ASC";
   const sortObject2 = {};
   sortObject2[sort] = method;
+  sortObject2["count"] = "DESC";
 
   var findWorstMahasiswa = Mahasiswa.find({'rating':{$gt:0}})
     .populate('image')

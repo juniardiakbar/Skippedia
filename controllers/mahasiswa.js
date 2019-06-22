@@ -639,6 +639,7 @@ exports.postCommentMahasiswa = (req, res) => {
           sum = sum + val.nilai;
         })
         mhs.rating = sum/rating.length;
+        mhs.count += 1;
         mhs.save().then(function(result) {
           if (result) {
             req.flash("success", {
@@ -689,6 +690,7 @@ exports.deleteCommentMahasiswa = (req, res) => {
           })
           sum = sum - result.nilai;
           mhs.rating = rating.length != 1 ? sum/(rating.length-1) : 0;
+          mhs.count -= 1;
           mhs.save();
         })
       } else {

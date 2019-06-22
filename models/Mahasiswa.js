@@ -8,6 +8,7 @@ const mahasiswaSchema = new mongoose.Schema({
   },
   angkatan: String,
   rating: Number,
+  count : Number,
   jurusan: String,
   image: {
     type: mongoose.Schema.Types.ObjectId,
