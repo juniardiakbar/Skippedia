@@ -16,6 +16,7 @@ axios.defaults.headers.common['X-CSRF-TOKEN'] = this.csrf;
 var url = '/mahasiswa/all?'
 
 $(document).on('click','#namaASC', function(){
+  $('#page').val(1);
   var page = $('#page').val();
   var limit = $('#limit').val();
   var search = $('#search').val();
@@ -29,7 +30,9 @@ $(document).on('click','#namaASC', function(){
   $('#sort').val('nama');
   $('#method').val('DESC');
 });
+
 $(document).on('click','#namaDESC', function(){
+  $('#page').val(1);
   var page = $('#page').val();
   var limit = $('#limit').val();
   var search = $('#search').val();
@@ -43,7 +46,9 @@ $(document).on('click','#namaDESC', function(){
   $('#sort').val('nama');
   $('#method').val('ASC');
 });
+
 $(document).on('click','#nama', function(){
+  $('#page').val(1);
   var page = $('#page').val();
   var limit = $('#limit').val();
   var search = $('#search').val();
@@ -59,6 +64,7 @@ $(document).on('click','#nama', function(){
 });
 
 $(document).on('click','#nimASC', function(){
+  $('#page').val(1);
   var page = $('#page').val();
   var limit = $('#limit').val();
   var search = $('#search').val();
@@ -72,7 +78,9 @@ $(document).on('click','#nimASC', function(){
   $('#sort').val('nim');
   $('#method').val('DESC');
 });
+
 $(document).on('click','#nimDESC', function(){
+  $('#page').val(1);
   var page = $('#page').val();
   var limit = $('#limit').val();
   var search = $('#search').val();
@@ -88,6 +96,7 @@ $(document).on('click','#nimDESC', function(){
 });
 
 $(document).on('click','#ratingASC', function(){
+  $('#page').val(1);
   var page = $('#page').val();
   var limit = $('#limit').val();
   var search = $('#search').val();
@@ -101,7 +110,9 @@ $(document).on('click','#ratingASC', function(){
   $('#sort').val('rating');
   $('#method').val('DESC');
 });
+
 $(document).on('click','#ratingDESC', function(){
+  $('#page').val(1);
   var page = $('#page').val();
   var limit = $('#limit').val();
   var search = $('#search').val();
@@ -115,7 +126,9 @@ $(document).on('click','#ratingDESC', function(){
   $('#sort').val('rating');
   $('#method').val('ASC');
 });
+
 $(document).on('click','#rating', function(){
+  $('#page').val(1);
   var page = $('#page').val();
   var limit = $('#limit').val();
   var search = $('#search').val();

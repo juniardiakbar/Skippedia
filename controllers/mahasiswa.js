@@ -639,7 +639,6 @@ exports.postCommentMahasiswa = (req, res) => {
           sum = sum + val.nilai;
         })
         mhs.rating = sum/rating.length;
-        mhs.count += 1;
         mhs.save().then(function(result) {
           if (result) {
             req.flash("success", {

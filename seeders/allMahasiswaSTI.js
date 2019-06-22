@@ -149,13 +149,15 @@ module.exports = new Promise((resolve, reject) => {
     var _nama = data[0];
     var _nim = data[1];
     var _angkatan = data[2]
-    console.log(_nama, _nim, _angkatan);
+    // console.log(_nama, _nim, _angkatan);
     
     Mahasiswa.findOne({
       nim: _nim,
     })
       .then((foundMahasiswa) => {
         if (foundMahasiswa) {
+          // foundMahasiswa.count = 0;
+          // return foundMahasiswa.save();
           return (null);
         }
         const newMahasiswa = new Mahasiswa({
@@ -163,7 +165,7 @@ module.exports = new Promise((resolve, reject) => {
           nama: _nama,
           angkatan: _angkatan,
           rating: 0,
-          count: 0,
+          // count: 0,
           image: null,
           jurusan: 'sti',
         });

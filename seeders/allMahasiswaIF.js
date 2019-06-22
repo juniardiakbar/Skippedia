@@ -1,4 +1,5 @@
 const Mahasiswa = require('../models/Mahasiswa');
+const Rating = require('../models/Rating');
 
 const allMahasiswa = `Abda Shaffan Diva,13517021,unix
 Abdurrahman,13515024,enigma
@@ -464,21 +465,27 @@ module.exports = new Promise((resolve, reject) => {
     var _nama = data[0];
     var _nim = data[1];
     var _angkatan = data[2]
-    console.log(_nama, _nim, _angkatan);
+    // console.log(_nama, _nim, _angkatan);
     
     Mahasiswa.findOne({
       nim: _nim,
     })
       .then((foundMahasiswa) => {
         if (foundMahasiswa) {
-          return (null);
+          const countRating = Rating.find({'untuk': _nim}).countDocuments();
+          Promise.all([countRating])
+            .then(([countRate]) => {
+              foundMahasiswa.count = countRate;
+              return foundMahasiswa.save();
+            })
+            .catch(e => console.log(e));
         }
         const newMahasiswa = new Mahasiswa({
           nim: _nim,
           nama: _nama,
           angkatan: _angkatan,
           rating: 0,
-          count : 0,
+          // count : 0,
           image: null,
           jurusan: 'if',
         });
@@ -492,5 +499,5 @@ module.exports = new Promise((resolve, reject) => {
         resolve(null);
       })
       .catch(e => reject(e));  
-  })  
+  })
 });
