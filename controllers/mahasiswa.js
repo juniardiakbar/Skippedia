@@ -303,7 +303,6 @@ exports.getMahasiswaAll = (req, res) => {
   Promise.all([findMahasiswa, countMahasiswa, totalMahasiswa])
   .then(([mahasiswa, count, total]) => {
     res.render('mahasiswa/all', {
-      title: 'Cari Mahasiswa Enigma 2015',
       unknownUser,
       page,
       limit,
@@ -347,6 +346,8 @@ exports.getMahasiswaAllHome = (req, res) => {
   search = search || "";
   const sortObject = {};
   sortObject[sort] = method;
+  sortObject['count'] = 'DESC';
+  sortObject['nama'] = 'ASC';
   const _angkatan = angkatan;
   const _jurusan = jurusan;
 
@@ -448,7 +449,6 @@ exports.getMahasiswaAllHome = (req, res) => {
   Promise.all([findMahasiswa, countMahasiswa, totalMahasiswa])
   .then(([mahasiswa, count, total]) => {
     res.render('mahasiswa/allHome', {
-      title: 'Cari Mahasiswa Enigma 2015',
       unknownUser,
       page,
       limit,
@@ -639,6 +639,7 @@ exports.postCommentMahasiswa = (req, res) => {
           sum = sum + val.nilai;
         })
         mhs.rating = sum/rating.length;
+        mhs.count += 1;
         mhs.save().then(function(result) {
           if (result) {
             req.flash("success", {

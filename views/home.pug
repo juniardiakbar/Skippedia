@@ -3,6 +3,9 @@ extends layout
 block script
   script(src='/assets/js/mahasiswa/home.js')
 
+block head
+  link(rel='stylesheet', href='/assets/css/mahasiswa/main.css')
+
 block content
   .row
     .col-lg-6
@@ -14,14 +17,19 @@ block content
             a.btn.btn-outline-secondary.btn-sm.ml-2#ifCarry IF
             a.btn.btn-outline-secondary.btn-sm.ml-2#stiCarry STI
         table.table.card-table.table-vcenter
+          input#pageBest(type="hidden" name="page")
+          input#jurusanBest(type="hidden" names="jurusan")
+          input#pages(type="hidden" names="pages" value=pages)
+          input#pagesIf(type="hidden" names="Ifpages" value=ifpages)
+          input#pagesSti(type="hidden" names="Stipages" value=stipages)
           thead
             tr
               th.w-1
               th Nama
               th.d-none.d-sm-table-cell NIM
               th.d-none.d-md-table-cell Rating
+          - var link = '/mahasiswa/info/'
           tbody#tabelCarry
-            - var link = '/mahasiswa/info/'
             for data in bestMahasiswa
               - var href = link+data.nim
               tr
@@ -32,10 +40,21 @@ block content
                     - var hrefImg = 'background-image: url('+data.image.url+')'
                     span.avatar.d-block.rounded(style=`${hrefImg}`)
                 td
-                   
                   a(href=`${href}` style='color : black')= data.nama
                 td= data.nim
                 td= data.rating + ' (' + data.count + ')'
+                
+        if (bestMahasiswa.length != 0)
+          nav.mt-3
+            ul.pagination.justify-content-center
+              li.page-item
+                a.page-link.btn-gray-dark.classicBtn.disabled#prevBest(aria-label='Previous' style='color : white') Sebelumnya
+  
+              li.page-item
+                a.page-link.btn-gray-dark.classicBtn.active#numberBest 1
+  
+              li.page-item
+                a.page-link.btn-gray-dark.classicBtn#nextBest(aria-label='Next', style='color : white') Selanjutnya
 
     .col-lg-6
       .card
@@ -46,6 +65,8 @@ block content
             a.btn.btn-outline-secondary.btn-sm.ml-2#ifSkip IF
             a.btn.btn-outline-secondary.btn-sm.ml-2#stiSkip STI
         table.table.card-table.table-vcenter
+          input#pageWorst(type="hidden" name="page")
+          input#jurusanWorst(type="hidden" names="jurusan")
           thead
             tr
               th.w-1
@@ -67,3 +88,15 @@ block content
                   a(href=`${href}` style='color : black')= data.nama
                 td= data.nim
                 td= data.rating + ' (' + data.count + ')'
+                
+        if (worstMahasiswa.length != 0)
+          nav.mt-3
+            ul.pagination.justify-content-center
+              li.page-item
+                a.page-link.btn-gray-dark.classicBtn.disabled#prevWorst(aria-label='Previous' style='color : white') Sebelumnya
+
+              li.page-item
+                a.page-link.btn-gray-dark.classicBtn.active#numberWorst 1
+
+              li.page-item
+                a.page-link.btn-gray-dark.classicBtn#nextWorst(aria-label='Next', style='color : white') Selanjutnya
