@@ -540,9 +540,10 @@ exports.getInfoMahasiswa = (req, res) => {
       }
     }
   }
+  var haveLogin = User.findOne({email : req.params.nim + '@std.stei.itb.ac.id'});
   
-  Promise.all([findMahasiswa, findRating, countRating, totalRating, account, banyakRating])
-  .then(([mahasiswa, rating, count, total, acc, banyak]) => {
+  Promise.all([findMahasiswa, findRating, countRating, totalRating, account, banyakRating, haveLogin])
+  .then(([mahasiswa, rating, count, total, acc, banyak, login]) => {
     res.render('mahasiswa/info', {
       title: req.params.nim,
       unknownUser,
@@ -556,6 +557,7 @@ exports.getInfoMahasiswa = (req, res) => {
       rating,
       acc,
       banyak,
+      login,
 
       pageQuery: req.pageQuery || page,
       limitQuery: req.limitQuery || limit,
