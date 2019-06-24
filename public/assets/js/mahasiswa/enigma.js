@@ -37,7 +37,7 @@ $(document).on('click','#namaDESC', function(){
   var limit = $('#limit').val();
   var search = $('#search').val();
 
-  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=enigma';
 
 	ajax(url+'sort=nama&method=ASC&'+query+'&jurusan=all');
 	$('#namaDESC').attr('id', 'namaASC');
@@ -53,7 +53,7 @@ $(document).on('click','#nama', function(){
   var limit = $('#limit').val();
   var search = $('#search').val();
 
-  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=enigma';
 
 	ajax(url+'sort=nama&method=ASC&'+query+'&jurusan=all');
 	$('#nama').attr('id', 'namaASC');
@@ -69,7 +69,7 @@ $(document).on('click','#nimASC', function(){
   var limit = $('#limit').val();
   var search = $('#search').val();
 
-  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=enigma';
 
 	ajax(url+'sort=nim&method=DESC&'+query+'&jurusan=all');
 	$('#nimASC').attr('id', 'nimDESC');
@@ -85,7 +85,7 @@ $(document).on('click','#nimDESC', function(){
   var limit = $('#limit').val();
   var search = $('#search').val();
 
-  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=enigma';
 
 	ajax(url+'sort=nim&method=ASC&'+query+'&jurusan=all');
 	$('#nimDESC').attr('id', 'nimASC');
@@ -101,7 +101,7 @@ $(document).on('click','#ratingASC', function(){
   var limit = $('#limit').val();
   var search = $('#search').val();
 
-  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=enigma';
 
   ajax(url+'sort=rating&method=DESC&'+query+'&jurusan=all');
   $('#ratingASC').attr('id', 'ratingDESC');
@@ -117,7 +117,7 @@ $(document).on('click','#ratingDESC', function(){
   var limit = $('#limit').val();
   var search = $('#search').val();
 
-  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=enigma';
 
   ajax(url+'sort=rating&method=ASC&'+query+'&jurusan=all');
   $('#ratingDESC').attr('id', 'ratingASC');
@@ -133,7 +133,7 @@ $(document).on('click','#rating', function(){
   var limit = $('#limit').val();
   var search = $('#search').val();
 
-  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=enigma';
 
   ajax(url+'sort=rating&method=ASC&'+query+'&jurusan=all');
   $('#rating').attr('id', 'ratingASC');
@@ -141,6 +141,54 @@ $(document).on('click','#rating', function(){
   $('#ratingASC').append('<i class="fas fa-sort-numeric-down fa-lg" id="icon-sort"></i>')
   $('#sort').val('rating');
   $('#method').val('ASC');
+});
+
+$(document).on('click','#login', function(){
+  $('#page').val(1);
+  var page = $('#page').val();
+  var limit = $('#limit').val();
+  var search = $('#search').val();
+
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=enigma';
+
+  ajax(url+'sort=haveLogin&method=DESC&'+query+'&jurusan=all');
+  $('#login').attr('id', 'loginDESC');
+  $('#icon-sort').remove();
+  $('#loginDESC').append('<i class="fas fa-check fa-lg" id="icon-sort"></i>')
+  $('#sort').val('haveLogin');
+  $('#method').val('DESC');
+});
+
+$(document).on('click','#loginDESC', function(){
+  $('#page').val(1);
+  var page = $('#page').val();
+  var limit = $('#limit').val();
+  var search = $('#search').val();
+
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=enigma';
+
+  ajax(url+'sort=haveLogin&method=ASC&'+query+'&jurusan=all');
+  $('#loginDESC').attr('id', 'loginASC');
+  $('#icon-sort').remove();
+  $('#loginASC').append('<i class="fas fa-times fa-lg" id="icon-sort"></i>')
+  $('#sort').val('haveLogin');
+  $('#method').val('ASC');
+});
+
+$(document).on('click','#loginASC', function(){
+  $('#page').val(1);
+  var page = $('#page').val();
+  var limit = $('#limit').val();
+  var search = $('#search').val();
+
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=enigma';
+
+  ajax(url+'sort=haveLogin&method=DESC&'+query+'&jurusan=all');
+  $('#loginASC').attr('id', 'loginDESC');
+  $('#icon-sort').remove();
+  $('#loginDESC').append('<i class="fas fa-check fa-lg" id="icon-sort"></i>')
+  $('#sort').val('haveLogin');
+  $('#method').val('DESC');
 });
 
 $('#prev').on('click', function() {

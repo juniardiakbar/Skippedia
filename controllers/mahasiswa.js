@@ -586,15 +586,19 @@ exports.getCommentMahasiswa = (req, res) => {
     dari: req.user.id,  
   });
 
+  const haveLogin = User.findOne({
+    email : req.params.nim + '@std.stei.itb.ac.id'
+  })
+
   var can = false;
   if (req.params.nim != req.user.email.split('@')[0]) {
     can = true;
   }
 
-  Promise.all([findMahasiswa, countRating, can])
-  .then(([mahasiswa, count, canComment]) => {
+  Promise.all([findMahasiswa, countRating, can, haveLogin])
+  .then(([mahasiswa, count, canComment, haveLogin]) => {
     // console.log(count);
-    if (count == 0 && canComment){
+    if (count == 0 && canComment && haveLogin) {
       res.render('mahasiswa/comment', {
         title: 'Tambahkan Komentarmu',
         mahasiswa,

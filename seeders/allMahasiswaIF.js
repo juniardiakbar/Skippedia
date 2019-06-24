@@ -1,5 +1,6 @@
 const Mahasiswa = require('../models/Mahasiswa');
 const Rating = require('../models/Rating');
+const User = require('../models/User');
 
 const allMahasiswa = `Abda Shaffan Diva,13517021,unix
 Abdurrahman,13515024,enigma
@@ -473,9 +474,16 @@ module.exports = new Promise((resolve, reject) => {
       .then((foundMahasiswa) => {
         if (foundMahasiswa) {
           const countRating = Rating.find({'untuk': _nim}).countDocuments();
-          Promise.all([countRating])
-            .then(([countRate]) => {
-              foundMahasiswa.count = countRate;
+          const haveLogin = User.findOne({'email': _nim + '@std.stei.itb.ac.id'});
+          Promise.all([countRating, haveLogin])
+            .then(([countRate, login]) => {
+              foundMahasiswa.count = countRate
+              if (!login) {
+                foundMahasiswa.haveLogin = false;
+              }
+              else {
+                foundMahasiswa.haveLogin = true;
+              }
               return foundMahasiswa.save();
             })
             .catch(e => console.log(e));
@@ -485,7 +493,8 @@ module.exports = new Promise((resolve, reject) => {
           nama: _nama,
           angkatan: _angkatan,
           rating: 0,
-          // count : 0,
+          count: 0,
+          haveLogin: false,
           image: null,
           jurusan: 'if',
         });

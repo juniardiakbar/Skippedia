@@ -1,4 +1,6 @@
 const Mahasiswa = require('../models/Mahasiswa');
+const Rating = require('../models/Rating');
+const User = require('../models/User');
 
 const allMahasiswa = `Abdul Hafizh Firdaus,18215007,enigma
 Abidzar Muhammad Ghifary Kurniawan,18216045,bit
@@ -156,16 +158,28 @@ module.exports = new Promise((resolve, reject) => {
     })
       .then((foundMahasiswa) => {
         if (foundMahasiswa) {
-          // foundMahasiswa.count = 0;
-          // return foundMahasiswa.save();
-          return (null);
+          const countRating = Rating.find({'untuk': _nim}).countDocuments();
+          const haveLogin = User.findOne({'email': _nim + '@std.stei.itb.ac.id'});
+          Promise.all([countRating, haveLogin])
+            .then(([countRate, login]) => {
+              foundMahasiswa.count = countRate
+              if (!login) {
+                foundMahasiswa.haveLogin = false;
+              }
+              else {
+                foundMahasiswa.haveLogin = true;
+              }
+              return foundMahasiswa.save();
+            })
+            .catch(e => console.log(e));
         }
         const newMahasiswa = new Mahasiswa({
           nim: _nim,
           nama: _nama,
           angkatan: _angkatan,
           rating: 0,
-          // count: 0,
+          count: 0,
+          haveLogin: false,
           image: null,
           jurusan: 'sti',
         });

@@ -70,7 +70,10 @@ passport.use(new GoogleStrategy({
         
         Promise.all([findUser])
         .then(([user]) => {
-          done(null, user)
+          user.haveLogin = true;
+          user.save((err) => {
+            done(err, user);
+          });
         })
         .catch(() => {
           throw new Error("Error");
@@ -81,6 +84,7 @@ passport.use(new GoogleStrategy({
         user.google = profile.id;
         user.tokens.push({ kind: 'google', accessToken });
         user.name = profile.displayName;
+        user.haveLogin = true;
         user.save((err) => {
           done(err, user);
         });
