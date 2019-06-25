@@ -118,7 +118,9 @@ exports.isAdmin = (req, res, next) => {
     return next();
   }
 
-  req.flash('errors', { msg: 'You are not administrator' });
+  req.flash('errors', {
+    msg: 'You are not admin'
+  });
   res.redirect('/');
 };
 
