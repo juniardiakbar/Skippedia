@@ -4,10 +4,10 @@
 ## Features
 - Authentication with Google
 - Flash notification
-- MVC project structure
-- Administrator page
 - CSRF protection
 - Change user profile picture
+- MVC project structure
+- Administrator page
 
 ## Dependency
 - Node.js version 12.3
