@@ -4,6 +4,7 @@ const { OAuth2Strategy: GoogleStrategy } = require('passport-google-oauth');
 const _ = require('lodash');
 
 const User = require('../models/User');
+const Mahasiswa = require('../models/Mahasiswa'); 
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -67,10 +68,11 @@ passport.use(new GoogleStrategy({
       if (err) { return done(err); }
       if (existingEmailUser) {
         const findUser = User.findOne({email: profile.emails[0].value});
-        
-        Promise.all([findUser])
-        .then(([user]) => {
-          user.haveLogin = true;
+        const findMahasiswa = Mahasiswa.findOne({nim : profile.emails[0].value.substring(0,8)})
+        Promise.all([findUser, findMahasiswa])
+        .then(([user, mahasiswa]) => {
+          mahasiswa.haveLogin = true;
+          mahasiswa.save();
           user.save((err) => {
             done(err, user);
           });
@@ -79,14 +81,19 @@ passport.use(new GoogleStrategy({
           throw new Error("Error");
         });
       } else {
-        const user = new User();
-        user.email = profile.emails[0].value;
-        user.google = profile.id;
-        user.tokens.push({ kind: 'google', accessToken });
-        user.name = profile.displayName;
-        user.haveLogin = true;
-        user.save((err) => {
-          done(err, user);
+        const findMahasiswa = Mahasiswa.findOne({nim : profile.emails[0].value.substring(0,8)});
+        Promise.all([findMahasiswa])
+        .then(([mahasiswa]) => {
+          mahasiswa.haveLogin = true;
+          mahasiswa.save();
+          const user = new User();
+          user.email = profile.emails[0].value;
+          user.google = profile.id;
+          user.tokens.push({ kind: 'google', accessToken });
+          user.name = profile.displayName;
+          user.save((err) => {
+            done(err, user);
+          });
         });
       }
     });
