@@ -34,6 +34,22 @@
 	cursor: pointer;
 }
 
+#login {
+	cursor: pointer;
+}
+
+#loginASC {
+	cursor: pointer;
+}
+
+#loginDESC {
+	cursor: pointer;
+}
+
+#icon-sort {
+	margin-left: 5px;
+}
+
 .disabled {
 	cursor: not-allowed;
 }

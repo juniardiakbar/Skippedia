@@ -143,6 +143,54 @@ $(document).on('click','#rating', function(){
   $('#method').val('ASC');
 });
 
+$(document).on('click','#login', function(){
+  $('#page').val(1);
+  var page = $('#page').val();
+  var limit = $('#limit').val();
+  var search = $('#search').val();
+
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
+
+  ajax(url+'sort=haveLogin&method=DESC&'+query+'&jurusan=all');
+  $('#login').attr('id', 'loginDESC');
+  $('#icon-sort').remove();
+  $('#loginDESC').append('<i class="fas fa-check fa-lg" id="icon-sort"></i>')
+  $('#sort').val('haveLogin');
+  $('#method').val('DESC');
+});
+
+$(document).on('click','#loginDESC', function(){
+  $('#page').val(1);
+  var page = $('#page').val();
+  var limit = $('#limit').val();
+  var search = $('#search').val();
+
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
+
+  ajax(url+'sort=haveLogin&method=ASC&'+query+'&jurusan=all');
+  $('#loginDESC').attr('id', 'loginASC');
+  $('#icon-sort').remove();
+  $('#loginASC').append('<i class="fas fa-times fa-lg" id="icon-sort"></i>')
+  $('#sort').val('haveLogin');
+  $('#method').val('ASC');
+});
+
+$(document).on('click','#loginASC', function(){
+  $('#page').val(1);
+  var page = $('#page').val();
+  var limit = $('#limit').val();
+  var search = $('#search').val();
+
+  var query = 'page='+page+'&limit='+limit+'&search='+search+'&angkatan=bit';
+
+  ajax(url+'sort=haveLogin&method=DESC&'+query+'&jurusan=all');
+  $('#loginASC').attr('id', 'loginDESC');
+  $('#icon-sort').remove();
+  $('#loginDESC').append('<i class="fas fa-check fa-lg" id="icon-sort"></i>')
+  $('#sort').val('haveLogin');
+  $('#method').val('DESC');
+});
+
 $('#prev').on('click', function() {
   if ($('#page').val() != '1'){
     $('#page').val(parseInt($('#page').val()) - 1);

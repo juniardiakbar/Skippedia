@@ -13,5 +13,9 @@ for data in mahasiswa
     td= data.nim
     td= data.rating
     td
-      a.icon(href=`${href}`)
-        i.fas.fa-search
+      if (data.haveLogin)
+        a
+          i.fas.fa-check
+      else
+        a
+          i.fas.fa-times

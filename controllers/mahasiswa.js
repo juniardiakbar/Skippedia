@@ -540,9 +540,10 @@ exports.getInfoMahasiswa = (req, res) => {
       }
     }
   }
+  var haveLogin = User.findOne({email : req.params.nim + '@std.stei.itb.ac.id'});
   
-  Promise.all([findMahasiswa, findRating, countRating, totalRating, account, banyakRating])
-  .then(([mahasiswa, rating, count, total, acc, banyak]) => {
+  Promise.all([findMahasiswa, findRating, countRating, totalRating, account, banyakRating, haveLogin])
+  .then(([mahasiswa, rating, count, total, acc, banyak, login]) => {
     res.render('mahasiswa/info', {
       title: req.params.nim,
       unknownUser,
@@ -556,6 +557,7 @@ exports.getInfoMahasiswa = (req, res) => {
       rating,
       acc,
       banyak,
+      login,
 
       pageQuery: req.pageQuery || page,
       limitQuery: req.limitQuery || limit,
@@ -584,15 +586,19 @@ exports.getCommentMahasiswa = (req, res) => {
     dari: req.user.id,  
   });
 
+  const haveLogin = User.findOne({
+    email : req.params.nim + '@std.stei.itb.ac.id'
+  })
+
   var can = false;
   if (req.params.nim != req.user.email.split('@')[0]) {
     can = true;
   }
 
-  Promise.all([findMahasiswa, countRating, can])
-  .then(([mahasiswa, count, canComment]) => {
+  Promise.all([findMahasiswa, countRating, can, haveLogin])
+  .then(([mahasiswa, count, canComment, haveLogin]) => {
     // console.log(count);
-    if (count == 0 && canComment){
+    if (count == 0 && canComment && haveLogin) {
       res.render('mahasiswa/comment', {
         title: 'Tambahkan Komentarmu',
         mahasiswa,

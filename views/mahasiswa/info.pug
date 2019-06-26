@@ -20,7 +20,7 @@ block content
             img.card-profile-img#image(src=`${mahasiswa.image.url}`)
           h3.mb-3= mahasiswa.nama
           h4.mb-4= mahasiswa.nim
-          if (mahasiswa.rating == '0')
+          if (mahasiswa.rating == '0' && mahasiswa.haveLogin)
             h5.mb-4 Belum ada yang memberi rating
           else
             input#input-rating(type="hidden" name="rating" value=mahasiswa.rating)
@@ -28,8 +28,11 @@ block content
 
           if (!acc)
             if (banyak == 0)
-              - var href = '/mahasiswa/comment/' + mahasiswa.nim
-              a.btn.btn-gray-dark.btn-block.classicBtn(href=`${href}`) Tambah Komentar
+              if (!mahasiswa.haveLogin)
+                h5.mb-4 Mahasiswa belum pernah login
+              else
+                - var href = '/mahasiswa/comment/' + mahasiswa.nim
+                a.btn.btn-gray-dark.btn-block.classicBtn(href=`${href}`) Tambah Komentar
           else
             - var href = '/mahasiswa/edit'
             a.btn.btn-gray-dark.btn-block.classicBtn(href=`${href}`) Edit Profile
@@ -106,4 +109,8 @@ block content
           h2 Komentar Untuk #{mahasiswa.nama} Belum Tersedia!
           img(src='/img/404.png')          
           if (!acc)
-            h4 Jadilah orang pertama yang memberi rating untuk #{mahasiswa.nama}
+            if (!mahasiswa.haveLogin)
+              h4 #{mahasiswa.nama} belum pernah login
+            else
+              h4 Jadilah orang pertama yang memberi rating untuk #{mahasiswa.nama}
+        

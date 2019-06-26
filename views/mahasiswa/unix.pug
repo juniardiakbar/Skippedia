@@ -18,8 +18,6 @@ block content
         input#limit(type="hidden" name="limit" value=limitQuery)
         .input-group
           input.form-control.form-control-md#search(type="text" placeholder="Search..." name="search" autocomplete="off" value=searchQuery)
-          //- button.btn.btn-md.btn-outline-info(type="submit")
-          //-   i.fa.fa-search
 
     .table-responsive#table
       table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table
@@ -35,6 +33,7 @@ block content
             th
               a#rating RATING
             th
+              a#login HAVE LOGIN
         tbody#tbody
           - var link = '/mahasiswa/info/'
           for data in mahasiswa
@@ -51,8 +50,12 @@ block content
               td= data.nim
               td= data.rating
               td
-                a.icon(href=`${href}`)
-                  i.fas.fa-search
+                if (data.haveLogin)
+                  a
+                    i.fas.fa-check
+                else
+                  a
+                    i.fas.fa-times
 
       nav.mt-3
         ul.pagination.justify-content-center
